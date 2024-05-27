@@ -3,5 +3,5 @@
     "end": "1st Cross Rd, Xavier Layout, Victoria Layout, Bengaluru, Karnataka 560047, India",
     "interval": 20,
     "duration": 0,
-    "api_key": null
+    "api_key": "op://Tokens/MapBox API Key - GPS Simulator/credential"
 }
