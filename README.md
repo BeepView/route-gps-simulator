@@ -1,4 +1,4 @@
-# route-gps-simulator
+# Driving GPS Tracker Simulator
 
 Simulate a GPS tracker moving along a defined route, sending GPS coordinates in defined intervals.
 
@@ -9,6 +9,9 @@ Simulate a GPS tracker moving along a defined route, sending GPS coordinates in 
 - [ ] Simulate GPS tracker in an infinite loop when duration is set to -1
 - [ ] Simulate GPS tracker inaccuracy
 - [ ] Simulate GPS tracker blackout
+- [ ] Add custom departure time
+- [ ] Simulate congestion and traffic delays
+- [ ] Display alternative routes and select one
 
 #### Installation
 
