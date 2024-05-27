@@ -1,5 +1,13 @@
 {
     "cSpell.words": [
-        "mapbox"
-    ]
+        "cumsum",
+        "Geocoder",
+        "latlng",
+        "mapbox",
+        "pbar",
+        "searchsorted",
+        "tqdm",
+        "trange"
+    ],
+    "python.analysis.typeCheckingMode": "basic"
 }

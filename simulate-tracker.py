@@ -5,6 +5,11 @@ import argparse
 
 # for reading the defaults file
 import json
+from tqdm import tqdm
+from time import sleep
+
+from utils.mapbox_service import Mapbox_service
+from utils.tracker_sim import TrackerSim
 
 if __name__ == "__main__":
     # Load the default values from the config file
@@ -51,3 +56,40 @@ if __name__ == "__main__":
     interval = args.interval
     duration = args.duration
     api_key = args.api_key
+
+    # Load the MapBoxService class
+    mapbox_service = Mapbox_service(api_key)
+    from_addr_feature = mapbox_service.get_coordinates(from_location)
+    to_addr_feature = mapbox_service.get_coordinates(to_location)
+
+    total_distance, total_duration, speeds, distances, durations, coordinates = (
+        mapbox_service.get_directions(from_addr_feature, to_addr_feature)
+    )
+
+    tracker_sim = TrackerSim(speeds, distances, durations, coordinates)
+
+    duration = duration if duration > 0 else int(total_duration)
+
+    print(
+        f"""
+SIMULATING ROUTE
+FROM: {from_location}
+TO: {to_location}
+
+Total route distance: {total_distance}m
+Total route duration: {total_duration}s
+
+Simulated duration: {duration}s
+Update intervals: {interval}s
+
+TO EXIT, press Ctrl+C
+
+"""
+    )
+
+    # Create a progress bar to display the elapsed time and the estimated coordinates
+    pbar = tqdm(range(0, duration, interval))
+    for time in pbar:
+        estimated_coords = tracker_sim.get_coords(time)
+        pbar.set_description(f"Elapsed time: {time}s, Coords: {estimated_coords}")
+        sleep(interval)
