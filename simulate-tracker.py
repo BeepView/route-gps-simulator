@@ -99,6 +99,6 @@ TO EXIT, press Ctrl+C
         pbar.set_description(f"Elapsed time: {time}s, Coords: {estimated_coords}")
         post(
             webhook_url,
-            {"coords": estimated_coords},
+            {"coordinates": {"lat": estimated_coords[0], "lng": estimated_coords[1]}},
         )
         sleep(interval)

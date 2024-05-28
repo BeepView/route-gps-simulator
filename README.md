@@ -7,7 +7,7 @@ Simulate a GPS tracker moving along a defined route, sending GPS coordinates in 
 #### Capabilities
 
 - [x] Simulate a GPS tracker moving along a defined route
-- [ ] Send GPS coordinates to a defined webhook endpoint at defined intervals
+- [x] Send GPS coordinates to a webhook endpoint at defined intervals
 - [ ] Simulate GPS tracker in an infinite loop when duration is set to -1
 - [ ] Simulate GPS tracker inaccuracy
 - [ ] Simulate GPS tracker blackout
@@ -61,6 +61,23 @@ options:
   --duration DURATION             Duration in seconds (0 to simulate the route once & -1 to loop the route infinitely)
   --api_key API_KEY               MapBox API key
   --webhook_url WEBHOOK_URL   Webhook URL to which the simulated coordinates JSON are POSTed
+```
+
+#### Webhook Callback Details
+
+The simulated GPS coordinates will be POSTed to the webhook is as follows:
+
+```json
+  {
+    "coordinates": {
+      "lat": <floating point latitude>,
+      "lng": <floating point longitude>,
+    }
+  }
+```
+
+```bash
+$ curl -X POST -H "Content-Type: application/json" -d '{"coordinates": {"lat": 12.9716, "lng": 77.5946}}' <webhook_url>
 ```
 
 #### Attribution
