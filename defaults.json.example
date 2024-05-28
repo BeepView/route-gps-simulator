@@ -4,4 +4,5 @@
     "interval": 20,
     "duration": 0,
     "api_key": "op://Tokens/MapBox API Key - GPS Simulator/credential"
+    "webhook": "op://Tokens/MapBox API Key - GPS Simulator/webhook"
 }

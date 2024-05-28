@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 
-# for argument parsing
 import argparse
-
-# for reading the defaults file
 import json
 from tqdm import tqdm
 from time import sleep
 
+from utils.utils import post
 from utils.mapbox_service import Mapbox_service
 from utils.tracker_sim import TrackerSim
 
@@ -49,6 +47,12 @@ if __name__ == "__main__":
         required=config.get("api_key") is None,
         default=config.get("api_key"),
     )
+    parser.add_argument(
+        "--webhook_url",
+        help="Webhook URL to which the simulated coordinates JSON are POSTed",
+        required=config.get("webhook_url") is None,
+        default=config.get("webhook_url"),
+    )
     args = parser.parse_args()
 
     from_location = args.start
@@ -56,6 +60,7 @@ if __name__ == "__main__":
     interval = args.interval
     duration = args.duration
     api_key = args.api_key
+    webhook_url = args.webhook_url
 
     # Load the MapBoxService class
     mapbox_service = Mapbox_service(api_key)
@@ -92,4 +97,8 @@ TO EXIT, press Ctrl+C
     for time in pbar:
         estimated_coords = tracker_sim.get_coords(time)
         pbar.set_description(f"Elapsed time: {time}s, Coords: {estimated_coords}")
+        post(
+            webhook_url,
+            {"coords": estimated_coords},
+        )
         sleep(interval)
