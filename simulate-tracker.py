@@ -78,8 +78,8 @@ if __name__ == "__main__":
     print(
         f"""
 SIMULATING ROUTE
-FROM: {from_location}
-TO: {to_location}
+FROM: {from_location} (lat: {from_addr_feature['geometry']['coordinates'][1]}, lng: {from_addr_feature['geometry']['coordinates'][0]})
+TO: {to_location} (lat: {to_addr_feature['geometry']['coordinates'][1]}, lng: {to_addr_feature['geometry']['coordinates'][0]})
 
 Total route distance: {total_distance}m
 Total route duration: {total_duration}s
@@ -97,13 +97,11 @@ TO EXIT, press Ctrl+C
     for time in pbar:
         estimated_coords = tracker_sim.get_coords(time)
         pbar.set_description(f"Elapsed time: {time}s, Coords: {estimated_coords}")
-        response = post(
-            webhook_url,
-            {
-                "id": "simulated-tracker-3",
-                "coordinates": {"lat": estimated_coords[0], "lng": estimated_coords[1]},
-            },
-        )
+        request_body = {
+            "id": "simulated-tracker-3",
+            "coordinates": {"lat": estimated_coords[1], "lng": estimated_coords[0]},
+        }
+        response = post(webhook_url, request_body)
         if not (response.status_code >= 200 and response.status_code < 300):
             print(
                 f"Failed to POST the simulated coordinates to the webhook URL: {webhook_url} {response.status_code}"
