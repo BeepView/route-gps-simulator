@@ -53,6 +53,12 @@ if __name__ == "__main__":
         required=config.get("webhook_url") is None,
         default=config.get("webhook_url"),
     )
+    parser.add_argument(
+        "--tracker_id",
+        help="Tracker ID which will be sent in the POST request",
+        required=config.get("tracker_id") is None,
+        default=config.get("tracker_id"),
+    )
     args = parser.parse_args()
 
     from_location = args.start
@@ -61,6 +67,7 @@ if __name__ == "__main__":
     duration = args.duration
     api_key = args.api_key
     webhook_url = args.webhook_url
+    trackerId = args.tracker_id
 
     # Load the MapBoxService class
     mapbox_service = Mapbox_service(api_key)
@@ -78,6 +85,7 @@ if __name__ == "__main__":
     print(
         f"""
 SIMULATING ROUTE
+TRACKER ID: {trackerId}
 FROM: {from_location} (lat: {from_addr_feature['geometry']['coordinates'][1]}, lng: {from_addr_feature['geometry']['coordinates'][0]})
 TO: {to_location} (lat: {to_addr_feature['geometry']['coordinates'][1]}, lng: {to_addr_feature['geometry']['coordinates'][0]})
 
@@ -98,7 +106,7 @@ TO EXIT, press Ctrl+C
         estimated_coords = tracker_sim.get_coords(time)
         pbar.set_description(f"Elapsed time: {time}s, Coords: {estimated_coords}")
         request_body = {
-            "id": "simulated-tracker-3",
+            "id": trackerId,
             "coordinates": {"lat": estimated_coords[1], "lng": estimated_coords[0]},
         }
         response = post(webhook_url, request_body)

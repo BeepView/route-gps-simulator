@@ -4,5 +4,6 @@
     "interval": 20,
     "duration": 0,
     "api_key": "op://Tokens/MapBox API Key - GPS Simulator/credential",
-    "webhook_url": "op://Tokens/MapBox API Key - GPS Simulator/webhook"
+    "webhook_url": "op://Tokens/MapBox API Key - GPS Simulator/webhook",
+    "tracker_id": "simulated-tracker-3"
 }
