@@ -2,12 +2,13 @@
 
 import argparse
 import json
-from tqdm import tqdm
 from time import sleep
 
-from utils.utils import post
+from tqdm import tqdm
+
 from utils.mapbox_service import Mapbox_service
 from utils.tracker_sim import TrackerSim
+from utils.utils import post
 
 if __name__ == "__main__":
     # Load the default values from the config file
