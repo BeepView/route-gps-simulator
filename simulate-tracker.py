@@ -60,6 +60,12 @@ if __name__ == "__main__":
         required=config.get("tracker_id") is None,
         default=config.get("tracker_id"),
     )
+    parser.add_argument(
+        "--webhook_api_key",
+        help="Api key for the webhook",
+        required=config.get("webhook_api_key") is None,
+        default=config.get("webhook_api_key"),
+    )
     args = parser.parse_args()
 
     from_location = args.start
@@ -69,6 +75,7 @@ if __name__ == "__main__":
     api_key = args.api_key
     webhook_url = args.webhook_url
     trackerId = args.tracker_id
+    webhook_api_key = args.webhook_api_key
 
     # Load the MapBoxService class
     mapbox_service = Mapbox_service(api_key)
@@ -110,7 +117,7 @@ TO EXIT, press Ctrl+C
             "id": trackerId,
             "coordinates": {"lat": estimated_coords[1], "lng": estimated_coords[0]},
         }
-        response = post(webhook_url, request_body)
+        response = post(webhook_url, request_body, webhook_api_key)
         if not (response.status_code >= 200 and response.status_code < 300):
             print(
                 f"Failed to POST the simulated coordinates to the webhook URL: {webhook_url} {response.status_code}"
